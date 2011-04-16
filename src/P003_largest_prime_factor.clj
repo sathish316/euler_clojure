@@ -6,16 +6,6 @@
 (defn factors [n]
   (filter #(zero? (rem n %)) (natural-numbers (quot n 2))))
 
-;(defn primes-upto [n]
-;  (take-while #(<= % n) primes))
-;
-;(defn prime-factors [n]
-;  (let [all-factors (factors n)]
-;    (intersection
-;      (set all-factors)
-;      (set (primes-upto (reduce max all-factors)))
-;      )))
-
 (defn prime? [n]
   (loop [n n d (int (Math/sqrt n))]
     (if (<= d 1) true
@@ -30,6 +20,7 @@
   (first (filter #(prime? %) (reverse (sort (factors n))))))
 
 ;(prn (largest-prime-factor 13195))
-(prn (largest-prime-factor 600851475143))
+(prn (factors 600851475143))
+;(prn (largest-prime-factor 600851475143))
 
 
