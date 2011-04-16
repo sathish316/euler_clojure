@@ -4,17 +4,17 @@
 (defn natural-numbers [n] (take n (iterate inc 1)))
 
 (defn factors [n]
-  (filter #(zero? (rem n %)) (natural-numbers (quot n 2))))
+  (filter #(zero? (rem n %)) (filter odd? (natural-numbers (quot n 2)))))
 
 (defn prime? [n]
-  (loop [n n d (int (Math/sqrt n))]
-    (if (<= d 1) true
-      (if (zero? (rem n d)) false
-        (recur n (dec d))
-        )
-      )
-    )
-  )
+  (if (<= n 1) false
+    (if (= n 2) true
+      (if (even? n) false
+        (loop [n n d (int (Math/sqrt n))]
+          (if (<= d 1) true
+            (if (zero? (rem n d)) false
+              (recur n (dec d))
+              )))))))
 
 (defn largest-prime-factor [n]
   (first (filter #(prime? %) (reverse (sort (factors n))))))
