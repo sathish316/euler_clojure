@@ -9,18 +9,21 @@
 (def digits-upto (memoize digits-upto))
 
 (defn digits [number]
-  (set (map #(Character/digit % 10) (seq (.toCharArray (str number))))))
+  (if (zero? number) ()
+    (cons (rem number 10) (digits (quot number 10)))))
 
 (defn pandigital? [number]
-  (= (digits number) (digits-upto (count (str number)))))
+  (= (set (digits number)) (digits-upto (count (str number)))))
 
 (defn prime? [n]
-  (loop [n n d (int (Math/sqrt n))]
-    (if (or (<= n 1) (even? n)) false
-      (if (<= d 1) true
-        (if (zero? (rem n d)) false
-          (recur n (dec d))
-          )))))
+  (if (<= n 1) false
+    (if (= n 2) true
+      (if (even? n) false
+        (loop [n n d (int (Math/sqrt n))]
+          (if (<= d 1) true
+            (if (zero? (rem n d)) false
+              (recur n (dec d))
+              )))))))
 
 (defn pandigital-prime? [number]
   (and (pandigital? number)
@@ -29,6 +32,6 @@
 (defn pandigital-primes [n]
   (filter pandigital-prime? (n-digit-numbers n)))
 
-(prn (first (pandigital-primes 6)))
+(prn (first (pandigital-primes 9)))
 
 
